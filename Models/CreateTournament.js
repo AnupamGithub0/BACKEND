@@ -1,5 +1,20 @@
 import mongoose from "mongoose";
 
+const JoinedUserSchema = new mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        auto: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    kills: {
+        type: Number,
+        default: 0,
+    }
+});
+
 const TournamentSchema = new mongoose.Schema(
   {
     date: {
@@ -11,7 +26,6 @@ const TournamentSchema = new mongoose.Schema(
       required: true,
     },
     amPm: {
-      // ensure consistency with the frontend
       type: String,
       required: true,
     },
@@ -43,16 +57,16 @@ const TournamentSchema = new mongoose.Schema(
       required: true,
     },
     joinedUsers: {
-      type: [String],
+      type: [JoinedUserSchema],
       required: true,
     },
-    owner:[
+    owner: [
       {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
       }
-    
-  ]},
+    ]
+  },
   { timestamps: true }
 );
 

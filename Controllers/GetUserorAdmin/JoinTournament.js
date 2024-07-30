@@ -32,7 +32,7 @@ export const JoinTournament = async (req, res) => {
       });
     }
 
-    if (tournament.joinedUsers.includes(playerName)) {
+    if (tournament.joinedUsers.some(user => user.name === playerName)) {
       return res.json({
         success: false,
         message: "Your name is already taken",
@@ -48,10 +48,9 @@ export const JoinTournament = async (req, res) => {
     }
 
     findUser.coins = (userCoins - tournament.joinCoins).toString();
-    // console.log(`Updated user coins: ${findUser.coins}`);
 
     tournament.leftPlayers -= 1;
-    tournament.joinedUsers.push(playerName);
+    tournament.joinedUsers.push({ name: playerName });
 
     if (tournament.owner.includes(req.user)) {
       return res.json({
@@ -62,14 +61,14 @@ export const JoinTournament = async (req, res) => {
       tournament.owner.push(req.user);
     }
 
-    if (findUser.tournamentJoined.includes(tournamentId)) {
-      return res.json({
-        success: false,
-        message: "You have already joined this tournament 2.0",
-      });
-    } else {
-      findUser.tournamentJoined.push(tournamentId);
-    }
+    // if (findUser.tournamentJoined.includes(tournamentId)) {
+    //   return res.json({
+    //     success: false,
+    //     message: "You have already joined this tournament 2.0",
+    //   });
+    // } else {
+    //   findUser.tournamentJoined.push(tournamentId);
+    // }
 
     await findUser.save();
     await tournament.save();

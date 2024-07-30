@@ -5,7 +5,9 @@ import { test } from '../Controllers/test.js'
 import { JwtVerify, isAdmin } from '../middlewares/Jwtverify.js'
 import { getAdmin } from '../Controllers/GetUserorAdmin/getAdmin.js'
 import { getUser } from '../Controllers/GetUserorAdmin/getUser.js'
+
 import { createTournament } from '../Controllers/GetUserorAdmin/CreateTournament.js'
+
 import { findAllTournaments } from '../Controllers/GetUserorAdmin/FindAllTournaments.js'
 import { JoinTournament } from '../Controllers/GetUserorAdmin/JoinTournament.js'
 import { TotalUser } from '../Controllers/GetUserorAdmin/TotalUser.js'
@@ -15,6 +17,10 @@ import { RoomIdPassword } from '../Controllers/GetUserorAdmin/RoomIdPassword.js'
 import { getTournamentDetails } from '../Controllers/GetUserorAdmin/getTournament.js'
 import { adminRoomId, getRoomIdAndPass } from '../Controllers/GetUserorAdmin/AdminRoomId.js'
 import { getMatchStats, matchStats } from '../Controllers/RoomId/MatchStats.js'
+import { loadMore } from '../Controllers/Loadmore.js'
+import { findTournametForList } from '../Controllers/RoomId/findtournament.js'
+import { Kills } from '../Controllers/userKills.js'
+import { getKills } from '../Controllers/GetKIllsUser.js'
 
 const route = express.Router()
 
@@ -24,18 +30,18 @@ route.post("/login",userLogin)
 route.get("/getAdmin",JwtVerify,isAdmin,getAdmin)
 route.get("/getUser",JwtVerify,getUser)
 route.post("/create-tournament",JwtVerify,isAdmin,createTournament)
-route.get("/tourments-find",findAllTournaments)
+route.get("/tourments-find",JwtVerify,findAllTournaments)
 route.put("/join-tournament/:tournamentId",JwtVerify,JoinTournament)
 
 route.get("/find-all-user",JwtVerify,isAdmin,TotalUser)
 //get-all-tournament-found-admin
 route.get("/find-tournament-admin",JwtVerify,isAdmin,getAllTournamentAdmin)
+
 //find-only-users-joined
 route.get("/my-contest",JwtVerify,Mycontest)
 
 //room-password-routes
 route.post("/room-password",JwtVerify,RoomIdPassword)
-
 route.get('/tournament-details/:tournamentId', JwtVerify,isAdmin, getTournamentDetails);
 
 // createing for user roomId and password
@@ -46,6 +52,22 @@ route.get("/get-room-password",JwtVerify,getRoomIdAndPass)
 //creating match-stats
 route.post("/create-matchStats",JwtVerify,isAdmin,matchStats)
 route.get("/get-matchStats",JwtVerify,getMatchStats)
+
+
+//loadmore
+route.get("/loadmore/:page",JwtVerify,loadMore)
+
+//perkill user list
+route.get("/admin-joinedName/:id",JwtVerify,isAdmin,findTournametForList)
+
+
+//kills--29.07.2024
+route.put("/update-kills/:tournamentId",JwtVerify,isAdmin,Kills)
+
+//get-kills from frontend
+route.post("/getKills",JwtVerify,getKills)
+
+
 
 
 

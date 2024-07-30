@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 app.use(cors({
-    origin: 'https://lighthearted-salmiakki-72df55.netlify.app',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
-}));
+  }));
   
 app.use(express.json());
 app.use(cookieParser());
